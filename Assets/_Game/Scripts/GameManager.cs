@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
     public Transform[] lanes;
     private  Transform currentLane;
     private int indexLane;
+    public GameObject playerPivot;
     public GameObject player;
+
     public Transform Target;
 	void Start ()
     {
@@ -39,7 +41,7 @@ public class GameManager : MonoBehaviour {
         {
             indexLane++;
             currentLane = lanes[indexLane];
-            player.transform.position=new Vector3(currentLane.position.x, player.transform.position.y, player.transform.position.z);
+            player.transform.position = new Vector3(currentLane.position.x, player.transform.position.y, player.transform.position.z);
         }
     }
 
@@ -50,13 +52,17 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (Vector3.Distance(player.transform.position,Target.position)<10f)
+        if (Vector3.Distance(playerPivot.transform.position, Target.position) < 10f)
+        {
+            Debug.Log("Reset");
             ResetPlayerPos();
-
+        }
     }
 
     void ResetPlayerPos()
     {
-        player.transform.position = Vector3.zero;
+        //player.transform.localPosition = Vector3.zero;
+        playerPivot.transform.position = Vector3.zero;
+        
     }
 }

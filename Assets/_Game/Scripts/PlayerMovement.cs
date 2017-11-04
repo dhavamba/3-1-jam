@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     
     public float speed = 4f;
+    private float speedFactor = 0.00125f;
     Transform target;
 
     // Use this for initialization
@@ -33,9 +34,13 @@ public class PlayerMovement : MonoBehaviour {
 
         }
 
-        transform.position= Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        speed += 0.001f;
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
         
+    }
+
+    private void FixedUpdate()
+    {
+        //speed += speedFactor;
     }
 
 
