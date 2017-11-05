@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : Singleton<GameManager>
+{
 
     // Use this for initialization
-    public static GameManager instance;
     public Transform[] lanes;
     private  Transform currentLane;
     private int indexLane;
@@ -19,10 +19,8 @@ public class GameManager : MonoBehaviour {
 	}
     private void Awake()
     {
-        instance = this;
         indexLane = 1;
         currentLane = lanes[indexLane];
-
     }
 
     public void ShiftRightLane()

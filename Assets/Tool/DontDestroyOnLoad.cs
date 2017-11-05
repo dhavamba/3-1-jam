@@ -8,7 +8,7 @@ public class DontDestroyOnLoad : MonoBehaviour
     private bool allowDuplicate;
     private bool isFirst;
 
-    private void Awake()
+    private void Start()
     {
         if (!allowDuplicate)
         {
@@ -40,14 +40,7 @@ public class DontDestroyOnLoad : MonoBehaviour
         {
             if (s.gameObject.name == gameObject.name)
             {
-                if (!s.isFirst)
-                {
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    Destroy(this);
-                }
+                DestroyImmediate(s.gameObject);
             }
         }
     }

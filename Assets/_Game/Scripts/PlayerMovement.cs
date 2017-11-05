@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        target = GameManager.instance.getCurrentLaneTarget();
+        target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
     }
 	
 	// Update is called once per frame
@@ -21,16 +21,16 @@ public class PlayerMovement : MonoBehaviour {
         if(Input.GetKeyDown("d"))
         {
 
-            GameManager.instance.ShiftleftLane();
-            target = GameManager.instance.getCurrentLaneTarget();
+            GameManager.Instance<GameManager>().ShiftleftLane();
+            target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
 
         }
 
         if (Input.GetKeyDown("a"))
         {
 
-            GameManager.instance.ShiftRightLane();
-            target = GameManager.instance.getCurrentLaneTarget();
+            GameManager.Instance<GameManager>().ShiftRightLane();
+            target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
 
         }
 
