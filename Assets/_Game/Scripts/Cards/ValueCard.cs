@@ -1,6 +1,15 @@
 ﻿
 public enum ValueCard
 {
-    test,
-    test2
+    LateralWind,
+    SlowDown,
+    SpeedUp,
+    Freze,
+    Invulnerable,
+    Teleport,
+    Pillars,
+    BouldersAbove,
+    BouldersBelow,
+    Mix,
+    GlassBlocks
 }

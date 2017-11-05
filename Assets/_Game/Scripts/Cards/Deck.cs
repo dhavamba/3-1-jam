@@ -17,19 +17,29 @@ public class Deck : Singleton<Deck>
 
     private void RandomDeck()
     {
-        List<Card> l = deck;
+        List<Card> auxDeck = deck;
 
         for (int i = 0; i < maxDeck; i++)
         {
             int aux = Random.Range(0, deck.Count - 1);
-            l.Add(deck[aux]);
+            auxDeck.Add(deck[aux]);
             deck.RemoveAt(aux);
         }
 
-        deck = l;
+        deck = auxDeck;
     }
 
-    private void AddDeck(Card c)
+    public bool IsFull()
+    {
+        if (deck.Count == maxDeck)
+        {
+            RandomDeck();
+            return true;
+        }
+        return false;
+    }
+
+    public void AddDeck(Card c)
     {
         if (deck.Count < maxDeck)
         {
@@ -38,9 +48,9 @@ public class Deck : Singleton<Deck>
         }
     }
 
-    private void RemoveDeck(Card c)
+    public void RemoveDeck(Card c)
     {
-        int aux = deck.FindIndex(x => x == c);
+        int aux = deck.FindIndex(x => x.Equals(c));
         if (aux != -1)
         {
             deck.RemoveAt(aux);
