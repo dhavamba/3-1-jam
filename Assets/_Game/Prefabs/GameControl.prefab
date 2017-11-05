@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4175082976793350}
-  - component: {fileID: 114930265923457118}
   - component: {fileID: 114388577792418276}
+  - component: {fileID: 114043146670259046}
   m_Layer: 0
   m_Name: GameControl
   m_TagString: Untagged
@@ -41,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114043146670259046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1276738528664532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ead9ec074eac5439492f674bbcc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowDuplicate: 0
 --- !u!114 &114388577792418276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,15 +65,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDeck: 5
---- !u!114 &114930265923457118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1276738528664532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1af5e3d91513b2640ba4555efca84988, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allowDuplicate: 0

@@ -12,7 +12,7 @@ public class Deck : Singleton<Deck>
         deck = new List<Card>();
     }
 
-    public delegate void Action(int number);
+    public delegate void Action(int number, Card a, bool add);
     public static event Action Change;
 
     private void RandomDeck()
@@ -27,6 +27,11 @@ public class Deck : Singleton<Deck>
         }
 
         deck = auxDeck;
+    }
+
+    private void Clear()
+    {
+        deck.Clear();
     }
 
     public bool IsFull()
@@ -44,7 +49,7 @@ public class Deck : Singleton<Deck>
         if (deck.Count < maxDeck)
         {
             deck.Add(c);
-            CallEvent();
+            CallEvent(c, true);
         }
     }
 
@@ -54,15 +59,15 @@ public class Deck : Singleton<Deck>
         if (aux != -1)
         {
             deck.RemoveAt(aux);
-            CallEvent();
+            CallEvent(c, false);
         }
     }
 
-    private void CallEvent()
+    private void CallEvent(Card c, bool add)
     {
         if (Change != null)
         {
-            Change(deck.Count);
+            Change(deck.Count, c, add);
         }
     }
 }
