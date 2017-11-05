@@ -6,13 +6,16 @@ public class PlayerMovement : MonoBehaviour {
 
     
     public float speed = 4f;
+    public float JumpIntensity=300f;
     private float speedFactor = 0.00125f;
+    private Vector3 startPosition;
     Transform target;
 
     // Use this for initialization
     void Start()
     {
         target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
+        startPosition = transform.position;
     }
 	
 	// Update is called once per frame
@@ -23,6 +26,13 @@ public class PlayerMovement : MonoBehaviour {
 
             GameManager.Instance<GameManager>().ShiftleftLane();
             target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+            GameManager.Instance<GameManager>().Jump(JumpIntensity);
 
         }
 
@@ -38,10 +48,20 @@ public class PlayerMovement : MonoBehaviour {
         
     }
 
-    private void FixedUpdate()
+
+    public void UpdateSpeed()
     {
-        //speed += speedFactor;
+        speed += speedFactor;
+
     }
+
+    public void ResetTostart()
+    {
+        transform.position = startPosition;
+
+    }
+
+    
 
 
 }

@@ -15,8 +15,9 @@ public class GameManager : Singleton<GameManager>
     public Transform Target;
 	void Start ()
     {
-         
-	}
+      
+
+    }
     private void Awake()
     {
         indexLane = 1;
@@ -25,21 +26,32 @@ public class GameManager : Singleton<GameManager>
 
     public void ShiftRightLane()
     {
-        if (indexLane > 0)
+        if (indexLane > 0 && player.GetComponent<PlayerCollider>().isGround())
         {
             indexLane--;
             currentLane = lanes[indexLane];
             player.transform.position=new Vector3(currentLane.position.x, player.transform.position.y, player.transform.position.z);
+            player.transform.Rotate(0, 0, 0);
         }
     }
 
     public void ShiftleftLane()
     {
-        if (indexLane < lanes.Length-1)
+        if (indexLane < lanes.Length- 1  && player.GetComponent<PlayerCollider>().isGround())
         {
             indexLane++;
             currentLane = lanes[indexLane];
             player.transform.position = new Vector3(currentLane.position.x, player.transform.position.y, player.transform.position.z);
+            player.transform.Rotate(0, 0, 0);
+        }
+    }
+
+    public void Jump(float intensity)
+    {
+        if (player.GetComponent<PlayerCollider>().isGround())
+        {
+            player.GetComponent<Rigidbody>().AddForce(Vector3.up * intensity);
+            player.transform.Rotate(0, 0, 0);
         }
     }
 
@@ -59,8 +71,7 @@ public class GameManager : Singleton<GameManager>
 
     void ResetPlayerPos()
     {
-        //player.transform.localPosition = Vector3.zero;
-        playerPivot.transform.position = Vector3.zero;
+        playerPivot.GetComponent<PlayerMovement>().ResetTostart();
         
     }
 }
