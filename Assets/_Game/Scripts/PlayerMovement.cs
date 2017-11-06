@@ -48,15 +48,11 @@ public class PlayerMovement : MonoBehaviour {
         
     }
 
-
-    public void UpdateSpeed()
-    {
-        speed += speedFactor;
-
-    }
+ 
 
     public void ResetTostart()
     {
+        speed += speedFactor;
         transform.position = startPosition;
 
     }

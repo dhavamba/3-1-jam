@@ -11,11 +11,12 @@ public class GameManager : Singleton<GameManager>
     private int indexLane;
     public GameObject playerPivot;
     public GameObject player;
+    ObstaclesManager obManager;
 
     public Transform Target;
 	void Start ()
     {
-      
+        obManager = GetComponent<ObstaclesManager>();
 
     }
     private void Awake()
@@ -65,7 +66,9 @@ public class GameManager : Singleton<GameManager>
         if (Vector3.Distance(playerPivot.transform.position, Target.position) < 10f)
         {
             Debug.Log("Reset");
+            obManager.ResetObstaclesArea();
             ResetPlayerPos();
+            obManager.SpawObject();
         }
     }
 

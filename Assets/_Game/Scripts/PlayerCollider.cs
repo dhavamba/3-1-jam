@@ -25,6 +25,12 @@ public class PlayerCollider : MonoBehaviour
 
     }
 
+    void OnCollisionEnter(Collision collisionInfo)
+    {
+        if(collisionInfo.gameObject.tag=="Respawn")
+            Debug.Log(collisionInfo.gameObject.tag);
+    }
+
     void OnCollisionStay(Collision collisionInfo)
     {
         ground= true;
