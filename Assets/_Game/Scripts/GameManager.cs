@@ -5,19 +5,25 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
 
-    // Use this for initialization
     public Transform[] lanes;
     private  Transform currentLane;
     private int indexLane;
     public GameObject playerPivot;
     public GameObject player;
     ObstaclesManager obManager;
+    private bool endGame = false;
+
 
     public Transform Target;
 	void Start ()
     {
         obManager = GetComponent<ObstaclesManager>();
 
+    }
+
+    public bool isEndGame()
+    {
+        return endGame;
     }
     private void Awake()
     {
@@ -63,7 +69,7 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update () {
 
-        if (Vector3.Distance(playerPivot.transform.position, Target.position) < 10f)
+        if (Vector3.Distance(playerPivot.transform.position, Target.position) < 2f)
         {
             Debug.Log("Reset");
             obManager.ResetObstaclesArea();
@@ -76,5 +82,17 @@ public class GameManager : Singleton<GameManager>
     {
         playerPivot.GetComponent<PlayerMovement>().ResetTostart();
         
+    }
+
+    public void ObstacleTriggered(string obstacle)
+    {
+        switch(obstacle)
+        {
+            case "Truck":
+                endGame = true;
+                        break;
+
+
+        }
     }
 }

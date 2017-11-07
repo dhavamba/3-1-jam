@@ -10,41 +10,47 @@ public class PlayerMovement : MonoBehaviour {
     private float speedFactor = 0.00125f;
     private Vector3 startPosition;
     Transform target;
+    GameManager gm;
 
     // Use this for initialization
     void Start()
     {
-        target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
+        gm = GameManager.Instance<GameManager>();
+        target = gm.getCurrentLaneTarget();
         startPosition = transform.position;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetKeyDown("d"))
+        if (!gm.isEndGame())
         {
 
-            GameManager.Instance<GameManager>().ShiftleftLane();
-            target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
+            if (Input.GetKeyDown("d"))
+            {
 
+                gm.ShiftleftLane();
+                target = gm.getCurrentLaneTarget();
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+
+                gm.Jump(JumpIntensity);
+
+            }
+
+            if (Input.GetKeyDown("a"))
+            {
+
+                gm.ShiftRightLane();
+                target = gm.getCurrentLaneTarget();
+
+            }
+
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            GameManager.Instance<GameManager>().Jump(JumpIntensity);
-
-        }
-
-        if (Input.GetKeyDown("a"))
-        {
-
-            GameManager.Instance<GameManager>().ShiftRightLane();
-            target = GameManager.Instance<GameManager>().getCurrentLaneTarget();
-
-        }
-
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
         
     }
 

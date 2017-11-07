@@ -6,7 +6,7 @@ public class ObstaclesManager : MonoBehaviour
 {
     public Transform[] ObstaclesAreas;
     public Transform[] Lanes;
-    public GameObject ObstaclePrefab;
+    public GameObject [] ObstaclePrefabs;
 
 
     private ObstacleArea[] Oas;
@@ -106,15 +106,16 @@ public class ObstaclesManager : MonoBehaviour
     //y=z
     void InstantiateObstacle(Vector3 pos)
     {
-       StaticPool.Instantiate(ObstaclePrefab,new Vector3(pos.x,pos.y,pos.z));
+       StaticPool.Instantiate(ObstaclePrefabs[Random.Range(0, ObstaclePrefabs.Length)],new Vector3(pos.x,pos.y,pos.z));
     }
 
     public void ResetObstaclesArea()
     {
-        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+
+        GameObject[] obstacles = MultiTags.FindGameObjectsWithMultiTags("Obstacle");
         foreach (GameObject o in obstacles)
             StaticPool.Destroy(o);
-
+        
     }
 
 
