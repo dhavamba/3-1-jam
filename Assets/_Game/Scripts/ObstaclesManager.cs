@@ -40,7 +40,6 @@ public class ObstaclesManager : MonoBehaviour
         foreach(ObstacleArea ob in Oas)
         {
             int range = Mathf.Abs((int)(ob.start.z-ob.end.z));
-            Debug.Log(range);
             int step = 1;
             while(step<range)
             {

@@ -89,8 +89,8 @@ public class GameManager : Singleton<GameManager>
     }
 
     void StartGame()
-    {   
-        ResetPlayerPos();
+    {
+        playerPivot.GetComponent<PlayerMovement>().StartGame();
         endGame = false;
     }
 
@@ -105,6 +105,7 @@ public class GameManager : Singleton<GameManager>
 
             case "SnowMan":
                 collider.GetComponent<SnowMan>().SnowImpact();
+                playerPivot.GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowMan>().getSlowFactor());
                 break;
         }
     }

@@ -6,11 +6,15 @@ public class SnowMan : MonoBehaviour {
 
     // Use this for initialization
     public GameObject ImpactPrefab;
-
+    public float SlowFactor=2.5f;
     void Start () {
 		
 	}
 	
+    public float getSlowFactor()
+    {
+        return SlowFactor;
+    }
 	// Update is called once per frame
 	void Update ()
     {
