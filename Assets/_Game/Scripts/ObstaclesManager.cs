@@ -41,11 +41,11 @@ public class ObstaclesManager : MonoBehaviour
         {
             int range = Mathf.Abs((int)(ob.start.z-ob.end.z));
             Debug.Log(range);
-            int step = 0;
+            int step = 1;
             while(step<range)
             {
                 //lancio una moneta per decidere se spawnare o no l'ostacolo
-                if (Random.Range(0, 2) == 1)
+                if (Random.Range(0, 5) == 1)
                     step = RndObstacles(ob.start.x,0.0f,ob.start.z,step);
                 else
                     step += 1;
@@ -66,7 +66,7 @@ public class ObstaclesManager : MonoBehaviour
     int RndObstacles(float x,float y,float z,int Currentstep)
     {
         //decido random se l'ostacolo occupa 1 o più di un blocco
-        switch(Random.Range(0, 3))
+        switch(Random.Range(0,4))
         {
             // un blocco
             case 0:     
@@ -88,7 +88,7 @@ public class ObstaclesManager : MonoBehaviour
                 }
                 Currentstep += 5;
                 break;
-
+            /*
             //tre blocchi
             case 2:
                 for (int i = 0; i < 3; i++)
@@ -97,13 +97,18 @@ public class ObstaclesManager : MonoBehaviour
                 }
                 Currentstep += 6;
                 break;
+            */
+
+            default:
+                        InstantiateObstacle(new Vector3(Lanes[Random.Range(0, 3)].position.x, y, z + Currentstep));
+                        Currentstep += 4;
+                        break;
         }
         return Currentstep;
         
     }
 
-    //z=y
-    //y=z
+    
     void InstantiateObstacle(Vector3 pos)
     {
        StaticPool.Instantiate(ObstaclePrefabs[Random.Range(0, ObstaclePrefabs.Length)],new Vector3(pos.x,pos.y,pos.z));

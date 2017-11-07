@@ -76,6 +76,10 @@ public class GameManager : Singleton<GameManager>
             ResetPlayerPos();
             obManager.SpawObject();
         }
+
+        
+           
+        
     }
 
     void ResetPlayerPos()
@@ -84,15 +88,24 @@ public class GameManager : Singleton<GameManager>
         
     }
 
-    public void ObstacleTriggered(string obstacle)
+    void StartGame()
+    {   
+        ResetPlayerPos();
+        endGame = false;
+    }
+
+    public void ObstacleTriggered(GameObject collider)
     {
-        switch(obstacle)
+        switch(collider.ReturnTags()[0])
         {
             case "Truck":
                 endGame = true;
-                        break;
+                Invoke("StartGame", 1.5f);
+                break;
 
-
+            case "SnowMan":
+                collider.GetComponent<SnowMan>().SnowImpact();
+                break;
         }
     }
 }

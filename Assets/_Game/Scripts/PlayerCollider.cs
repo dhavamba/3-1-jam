@@ -38,6 +38,6 @@ public class PlayerCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-      GameManager.Instance<GameManager>().ObstacleTriggered(other.gameObject.ReturnTags()[0]);
+      GameManager.Instance<GameManager>().ObstacleTriggered(other.gameObject);
     }
 }

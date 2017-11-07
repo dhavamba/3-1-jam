@@ -416,16 +416,6 @@ Prefab:
       propertyPath: m_Name
       value: PlayerPivot
       objectReference: {fileID: 0}
-    - target: {fileID: 114461025783718514, guid: 8cb0ce6542f960746a370a6b5c1cca13,
-        type: 2}
-      propertyPath: JumpIntensity
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 114461025783718514, guid: 8cb0ce6542f960746a370a6b5c1cca13,
-        type: 2}
-      propertyPath: speed
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8cb0ce6542f960746a370a6b5c1cca13, type: 2}
   m_IsPrefabParent: 0
@@ -564,6 +554,7 @@ MonoBehaviour:
   - {fileID: 181260094}
   ObstaclePrefabs:
   - {fileID: 1026591129701872, guid: 669c566fd78b13440812f36ff1243c03, type: 2}
+  - {fileID: 1698392705306870, guid: 766d3eaecafcd9a4b93ed64ea5a9962c, type: 2}
 --- !u!114 &1271830605
 MonoBehaviour:
   m_ObjectHideFlags: 0
