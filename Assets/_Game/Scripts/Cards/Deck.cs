@@ -5,51 +5,50 @@ using UnityEngine;
 public class Deck : Singleton<Deck>
 {
     public int maxDeck;
-    private List<Card> aux;
-    private Stack<Card> deck;
+    private List<Card> deck;
+
+    private void Awake()
+    {
+        deck = new List<Card>();
+    }
 
     public delegate void Action(int number, Card a, bool add);
     public static event Action Change;
 
-    private void Awake()
-    {
-        aux = new List<Card>();
-        deck = new Stack<Card>();
-    }
-
     private void RandomDeck()
     {
-        List<Card> auxDeck = aux;
+        List<Card> auxDeck = deck;
 
         for (int i = 0; i < maxDeck; i++)
         {
-            int aux = Random.Range(0, this.aux.Count - 1);
-            auxDeck.Add(this.aux[aux]);
-            this.aux.RemoveAt(aux);
+            int aux = Random.Range(0, deck.Count - 1);
+            auxDeck.Add(deck[aux]);
+            deck.RemoveAt(aux);
         }
 
-        deck = new Stack<Card>(auxDeck);
-        aux.Clear();
-        auxDeck.Clear();
+        deck = auxDeck;
     }
 
     private void Clear()
     {
-        aux.Clear();
+        deck.Clear();
     }
 
     public Card Pop()
     {
-        if (deck.Count == 0)
-        {
-            return null;
-        }
-        return deck.Pop();
+        Card aux = deck[deck.Count - 1];
+        deck.RemoveAt(deck.Count - 1);
+        return aux;
+    }
+
+    public void InsertTail(Card c)
+    {
+        deck.Insert(0, c);
     }
 
     public bool IsFull()
     {
-        if (aux.Count == maxDeck)
+        if (deck.Count == maxDeck)
         {
             RandomDeck();
             return true;
@@ -59,19 +58,19 @@ public class Deck : Singleton<Deck>
 
     public void AddDeck(Card c)
     {
-        if (aux.Count < maxDeck)
+        if (deck.Count < maxDeck)
         {
-            aux.Add(c);
+            deck.Add(c);
             CallEvent(c, true);
         }
     }
 
     public void RemoveDeck(Card c)
     {
-        int aux = this.aux.FindIndex(x => x.Equals(c));
+        int aux = deck.FindIndex(x => x.Equals(c));
         if (aux != -1)
         {
-            this.aux.RemoveAt(aux);
+            deck.RemoveAt(aux);
             CallEvent(c, false);
         }
     }
@@ -80,7 +79,7 @@ public class Deck : Singleton<Deck>
     {
         if (Change != null)
         {
-            Change(aux.Count, c, add);
+            Change(deck.Count, c, add);
         }
     }
 }
