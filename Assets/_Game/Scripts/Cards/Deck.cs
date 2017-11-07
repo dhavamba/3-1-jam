@@ -5,38 +5,51 @@ using UnityEngine;
 public class Deck : Singleton<Deck>
 {
     public int maxDeck;
-    private List<Card> deck;
-
-    private void Awake()
-    {
-        deck = new List<Card>();
-    }
+    private List<Card> aux;
+    private Stack<Card> deck;
 
     public delegate void Action(int number, Card a, bool add);
     public static event Action Change;
 
+    private void Awake()
+    {
+        aux = new List<Card>();
+        deck = new Stack<Card>();
+    }
+
     private void RandomDeck()
     {
-        List<Card> auxDeck = deck;
+        List<Card> auxDeck = aux;
 
         for (int i = 0; i < maxDeck; i++)
         {
-            int aux = Random.Range(0, deck.Count - 1);
-            auxDeck.Add(deck[aux]);
-            deck.RemoveAt(aux);
+            int aux = Random.Range(0, this.aux.Count - 1);
+            auxDeck.Add(this.aux[aux]);
+            this.aux.RemoveAt(aux);
         }
 
-        deck = auxDeck;
+        deck = new Stack<Card>(auxDeck);
+        aux.Clear();
+        auxDeck.Clear();
     }
 
     private void Clear()
     {
-        deck.Clear();
+        aux.Clear();
+    }
+
+    public Card Pop()
+    {
+        if (deck.Count == 0)
+        {
+            return null;
+        }
+        return deck.Pop();
     }
 
     public bool IsFull()
     {
-        if (deck.Count == maxDeck)
+        if (aux.Count == maxDeck)
         {
             RandomDeck();
             return true;
@@ -46,19 +59,19 @@ public class Deck : Singleton<Deck>
 
     public void AddDeck(Card c)
     {
-        if (deck.Count < maxDeck)
+        if (aux.Count < maxDeck)
         {
-            deck.Add(c);
+            aux.Add(c);
             CallEvent(c, true);
         }
     }
 
     public void RemoveDeck(Card c)
     {
-        int aux = deck.FindIndex(x => x.Equals(c));
+        int aux = this.aux.FindIndex(x => x.Equals(c));
         if (aux != -1)
         {
-            deck.RemoveAt(aux);
+            this.aux.RemoveAt(aux);
             CallEvent(c, false);
         }
     }
@@ -67,7 +80,7 @@ public class Deck : Singleton<Deck>
     {
         if (Change != null)
         {
-            Change(deck.Count, c, add);
+            Change(aux.Count, c, add);
         }
     }
 }

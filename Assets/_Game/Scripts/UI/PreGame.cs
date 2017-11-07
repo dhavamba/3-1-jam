@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PreGame : MonoBehaviour
@@ -53,7 +54,7 @@ public class PreGame : MonoBehaviour
     {
         if (Deck.Instance<Deck>().IsFull())
         {
-            Debug.Log("Start");
+            SceneManager.LoadScene(2);
         }
     }
 }
