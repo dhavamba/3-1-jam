@@ -8,40 +8,8 @@ public class DontDestroyOnLoad : MonoBehaviour
     private bool allowDuplicate;
     private bool isFirst;
 
-    private void Start()
+    private void Awake()
     {
-        if (!allowDuplicate)
-        {
-            EliminateDuplicate();
-            SceneManager.sceneLoaded += EliminateDuplicate;
-            isFirst = true;
-        }
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void EliminateDuplicate(Scene s, LoadSceneMode l)
-    {
-        EliminateDuplicate();
-    }
-
-    private void OnDestroy()
-    {
-        if (isFirst)
-        {
-            SceneManager.sceneLoaded -= EliminateDuplicate;
-        }
-    }
-
-    private void EliminateDuplicate()
-    {
-        DontDestroyOnLoad[] names = gameObject.FindOtherObjectsOfType<DontDestroyOnLoad>();
-
-        foreach (DontDestroyOnLoad s in names)
-        {
-            if (s.gameObject.name == gameObject.name)
-            {
-                DestroyImmediate(s.gameObject);
-            }
-        }
     }
 }

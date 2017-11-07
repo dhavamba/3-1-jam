@@ -34,6 +34,18 @@ public class Deck : Singleton<Deck>
         deck.Clear();
     }
 
+    public Card Pop()
+    {
+        Card aux = deck[deck.Count - 1];
+        deck.RemoveAt(deck.Count - 1);
+        return aux;
+    }
+
+    public void InsertTail(Card c)
+    {
+        deck.Insert(0, c);
+    }
+
     public bool IsFull()
     {
         if (deck.Count == maxDeck)
