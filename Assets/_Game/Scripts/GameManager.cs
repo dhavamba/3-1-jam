@@ -33,22 +33,22 @@ public class GameManager : Singleton<GameManager>
 
     public void ShiftRightLane()
     {
-        if (indexLane > 0 && player.GetComponent<PlayerCollider>().isGround())
+        if (indexLane > 0)
         {
             indexLane--;
             currentLane = lanes[indexLane];
-            player.transform.position=new Vector3(currentLane.position.x, player.transform.position.y, player.transform.position.z);
             player.transform.Rotate(0, 0, 0);
         }
     }
 
+   
+
     public void ShiftleftLane()
     {
-        if (indexLane < lanes.Length- 1  && player.GetComponent<PlayerCollider>().isGround())
+        if (indexLane < lanes.Length- 1  )
         {
             indexLane++;
             currentLane = lanes[indexLane];
-            player.transform.position = new Vector3(currentLane.position.x, player.transform.position.y, player.transform.position.z);
             player.transform.Rotate(0, 0, 0);
         }
     }
@@ -57,9 +57,10 @@ public class GameManager : Singleton<GameManager>
     {
         if (player.GetComponent<PlayerCollider>().isGround())
         {
-            player.GetComponent<Rigidbody>().AddForce(Vector3.up * intensity);
+            player.GetComponent<Rigidbody>().AddForce(Vector3.up * intensity, ForceMode.Impulse);
             player.transform.Rotate(0, 0, 0);
         }
+        
     }
 
     public Transform getCurrentLaneTarget()
@@ -67,7 +68,8 @@ public class GameManager : Singleton<GameManager>
         return lanes[indexLane].GetChild(0).transform;
     }
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
 
         if (Vector3.Distance(playerPivot.transform.position, Target.position) < 2f)
         {
@@ -77,9 +79,7 @@ public class GameManager : Singleton<GameManager>
             obManager.SpawObject();
         }
 
-        
-           
-        
+
     }
 
     void ResetPlayerPos()
