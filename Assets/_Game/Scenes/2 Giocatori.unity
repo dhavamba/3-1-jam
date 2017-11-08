@@ -2067,6 +2067,7 @@ MonoBehaviour:
   DropObstaclePrefab:
   - {fileID: 1306072123492952, guid: 8e0e4382d970b3649b3f525caa0e7824, type: 2}
   - {fileID: 1346449581023492, guid: 4478dafc11a54a54ebb9fc3f0cfeb8df, type: 2}
+  - {fileID: 1242048423895680, guid: 74946211bd0ea504d84d481f3bcbe969, type: 2}
 --- !u!114 &1271830605
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -190,6 +190,13 @@ public class GameManager : Singleton<GameManager>
                 StartCoroutine(Frost(indexPlayer));
                 break;
 
+            case "SpeedUp":
+                StartCoroutine(SpeedUp(indexPlayer,3.5f));
+                break;
+
+            case "Pillars":
+                obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
+                break;
             default:
                 Debug.Log(ObstacleValue);
                
@@ -207,6 +214,13 @@ public class GameManager : Singleton<GameManager>
         PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed += 2.5f;
     }
 
+    IEnumerator SpeedUp(int indexPlayer,float SpeedTime)
+    {
+        
+        PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed += 2.5f;
+        yield return new WaitForSeconds(SpeedTime);
+        PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed -= 2.5f;
+    }
 
     public void ObstacleTriggered(int playerIndex,GameObject collider)
         {
@@ -231,6 +245,11 @@ public class GameManager : Singleton<GameManager>
             case "BouldersAbove":
                 collider.GetComponent<SnowBall>().SnowImpact();
                 PlayerPivot[playerIndex].GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowBall>().getSlowFactor());
+                break;
+
+            case "Pillars":
+                endGame[playerIndex] = true;
+                StartCoroutine(StartGame(playerIndex));
                 break;
         }
         
