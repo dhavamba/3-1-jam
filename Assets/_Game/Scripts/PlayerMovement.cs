@@ -7,35 +7,28 @@ public class PlayerMovement : SimpleMovement
 {
     private Transform target;
     private GameManager gm;
+    public int indexPlayer;
 
     // Use this for initialization
     void Start()
     {
         gm = GameManager.Instance<GameManager>();
-
-        startPosition = transform.position;
-        StartSpeed = speed;
-        InvokeRepeating("IncreaseSpeed", 2.5f,2.5f);
+ 
     }
 
-    public void StartGame()
-    {
-        transform.position=startPosition;
-        speed = StartSpeed;
-
-    }
+    
 	
 	// Update is called once per frame
 	protected override void Update ()
     {
         
-        if (!gm.isEndGame())
+        if (!gm.isEndGame(indexPlayer))
         {
             
             if (Input.GetKeyDown("d"))
             {
 
-                gm.ShiftleftLane();
+                gm.ShiftleftLane(indexPlayer);
                
 
             }
@@ -43,14 +36,14 @@ public class PlayerMovement : SimpleMovement
             if (Input.GetKeyDown(KeyCode.Space))
             {
 
-                gm.Jump(JumpIntensity);
+                gm.Jump(indexPlayer,JumpIntensity);
 
             }
             else
             if (Input.GetKeyDown("a"))
             {
 
-                gm.ShiftRightLane();
+                gm.ShiftRightLane(indexPlayer);
              
 
             }
@@ -60,26 +53,5 @@ public class PlayerMovement : SimpleMovement
         }
         
     }
-
-
-    public void ResetTostart()
-    {
-       
-        transform.position = startPosition;
-
+    
     }
-    public void IncreaseSpeed()
-    {
-        speed += speedFactor;
-    }
-    public void Slow(float slowFactor)
-    {
-        if(speed - slowFactor * speedFactor > StartSpeed/2)
-            speed -= slowFactor * speedFactor;
-            else
-            {
-                Translate();
-            }
-        }  
-    }
-}

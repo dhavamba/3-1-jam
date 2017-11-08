@@ -5,21 +5,22 @@ using UnityEngine;
 public class ObstaclesManager : MonoBehaviour
 {
     public Transform[] ObstaclesAreas;
-    public Transform[] Lanes;
     public GameObject [] ObstaclePrefabs;
 
-
+    private int curretEnviroment=0;
     private ObstacleArea[] Oas;
  
     // Use this for initialization
     public struct ObstacleArea
     {
         public Vector3 start, end;
+        public Transform lanes;
 
-        public ObstacleArea(Transform s, Transform e)
+        public ObstacleArea(Transform s, Transform e,Transform l)
         {
             start = s.TransformPoint(s.position);
             end = e.TransformPoint(e.position);
+            lanes = l;
         }
     }
 
@@ -29,7 +30,8 @@ public class ObstaclesManager : MonoBehaviour
         Oas = new ObstacleArea[ObstaclesAreas.Length];
         for (int i = 0; i < ObstaclesAreas.Length; i++)
         {
-            Oas[i] = new ObstacleArea(ObstaclesAreas[i].GetChild(0), ObstaclesAreas[i].GetChild(1));
+            Oas[i] = new ObstacleArea(ObstaclesAreas[i].GetChild(0), ObstaclesAreas[i].GetChild(1), ObstaclesAreas[i].parent.GetChild(0));
+            
         }
         SpawObject();
     }
@@ -37,15 +39,17 @@ public class ObstaclesManager : MonoBehaviour
     public void SpawObject()
     {
 
-        foreach(ObstacleArea ob in Oas)
+        for(int i= 0;i < Oas.Length;i++)
         {
-            int range = Mathf.Abs((int)(ob.start.z-ob.end.z));
+            
+
+            int range = Mathf.Abs((int)(Oas[i].start.z- Oas[i].end.z));
             int step = 1;
             while(step<range)
             {
                 //lancio una moneta per decidere se spawnare o no l'ostacolo
                 if (Random.Range(0, 5) == 1)
-                    step = RndObstacles(ob.start.x,0.0f,ob.start.z,step);
+                    step = RndObstacles(Oas[i].start.x,0.0f, Oas[i].start.z,step,Oas[i].lanes);
                 else
                     step += 1;
                          
@@ -62,14 +66,14 @@ public class ObstaclesManager : MonoBehaviour
 		
 	}
 
-    int RndObstacles(float x,float y,float z,int Currentstep)
+    int RndObstacles(float x,float y,float z,int Currentstep,Transform lanes)
     {
         //decido random se l'ostacolo occupa 1 o più di un blocco
         switch(Random.Range(0,4))
         {
             // un blocco
-            case 0:     
-                InstantiateObstacle(new Vector3(Lanes[Random.Range(0,3)].position.x, y, z+Currentstep));
+            case 0:
+                InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0,3)).position.x, y, z+Currentstep));
                 Currentstep += 4;
                 break;
 
@@ -81,7 +85,7 @@ public class ObstaclesManager : MonoBehaviour
                 {
                     if(i!=excluded)
                     {
-                        InstantiateObstacle(new Vector3(Lanes[i].position.x, y , z + Currentstep + 1));
+                        InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0, 3)).position.x, y , z + Currentstep + 1));
                     }
 
                 }
@@ -99,7 +103,7 @@ public class ObstaclesManager : MonoBehaviour
             */
 
             default:
-                        InstantiateObstacle(new Vector3(Lanes[Random.Range(0, 3)].position.x, y, z + Currentstep));
+                        InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0,3)).position.x, y, z + Currentstep));
                         Currentstep += 4;
                         break;
         }
@@ -110,6 +114,7 @@ public class ObstaclesManager : MonoBehaviour
     
     void InstantiateObstacle(Vector3 pos)
     {
+       
        StaticPool.Instantiate(ObstaclePrefabs[Random.Range(0, ObstaclePrefabs.Length)],new Vector3(pos.x,pos.y,pos.z));
     }
 
