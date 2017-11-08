@@ -143,6 +143,11 @@ public class GameManager : Singleton<GameManager>
                 collider.GetComponent<SnowMan>().SnowImpact();
                 PlayerPivot[playerIndex].GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowMan>().getSlowFactor());
                 break;
+
+            case "SnowBall":
+                collider.GetComponent<SnowBall>().SnowImpact();
+                PlayerPivot[playerIndex].GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowBall>().getSlowFactor());
+                break;
         }
         
         }
