@@ -21,9 +21,11 @@ public class SnowBall : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (cameraTransform.transform.position.z > transform.position.z)
-            Destroy(gameObject);
-        
+        if (cameraTransform != null)
+        {
+            if (cameraTransform.transform.position.z > transform.position.z)
+                Destroy(gameObject);
+        }
 	}
 
     public void SetCamera(Transform t)

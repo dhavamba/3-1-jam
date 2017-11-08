@@ -24,30 +24,33 @@ public class PlayerMovement : SimpleMovement
         
         if (!gm.isEndGame(indexPlayer))
         {
-            
-            if (Input.GetKeyDown("d"))
+            // DA TOGLIEREEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+            if (indexPlayer == 1)
             {
 
-                gm.ShiftleftLane(indexPlayer);
-               
+                if (Input.GetKeyDown("d"))
+                {
 
+                    gm.ShiftleftLane(indexPlayer);
+
+
+                }
+                else
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    gm.Jump(indexPlayer, JumpIntensity);
+
+                }
+                else
+                if (Input.GetKeyDown("a"))
+                {
+
+                    gm.ShiftRightLane(indexPlayer);
+
+
+                }
             }
-            else
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-
-                gm.Jump(indexPlayer,JumpIntensity);
-
-            }
-            else
-            if (Input.GetKeyDown("a"))
-            {
-
-                gm.ShiftRightLane(indexPlayer);
-             
-
-            }
-            
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
            
         }

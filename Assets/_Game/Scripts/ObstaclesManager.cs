@@ -6,6 +6,7 @@ public class ObstaclesManager : MonoBehaviour
 {
     public Transform[] ObstaclesAreas;
     public GameObject [] ObstaclePrefabs;
+    public GameObject[] DropObstaclePrefab;
 
     private int curretEnviroment=0;
     private ObstacleArea[] Oas;
@@ -24,6 +25,18 @@ public class ObstaclesManager : MonoBehaviour
         }
     }
 
+    public GameObject getDropObstacle(string tag)
+    {
+        foreach (GameObject o in DropObstaclePrefab)
+        {
+            Debug.Log(tag);
+            if (o.HaveTags(tag))
+            {
+                return o;
+            }
+        }
+        return null;
+    }
     void Start()
     {
       

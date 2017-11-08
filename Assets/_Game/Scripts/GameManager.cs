@@ -8,9 +8,13 @@ public class GameManager : Singleton<GameManager>
     public Transform[] Lanes;
 
     private  Transform[] CurrentLanes;
-    
+
+    // 0 è LA LISTA DEGLI OGGETTI DA DROPPARE SUL GIOCATORE 0(INVIATI DAL GIOCATORE 1)
+    // 1 è LA LISTA DEGLI OGGETTI DA DROPPARE SUL GIOCATORE 1(INVIATI DAL GIOCATORE 0)
+
+    private List<List<string>> ObstacleList;
     private int [] indexLanes;
-    
+    private bool[] dropOtherObstacles;
 
     public GameObject [] PlayerPivot;
     public GameObject [] Player;
@@ -20,6 +24,8 @@ public class GameManager : Singleton<GameManager>
 
 
     public Transform [] Target;
+
+
 
 	void Start ()
     {
@@ -34,21 +40,34 @@ public class GameManager : Singleton<GameManager>
         indexLanes = new int[Player.Length];
         CurrentLanes = new Transform[Player.Length];
         endGame = new bool[Player.Length];
+        ObstacleList = new List<List<string>>();
+        dropOtherObstacles = new bool[Player.Length];
+        for (int i = 0; i < Player.Length; i++)
+        {
+            dropOtherObstacles[i] = true;
+        }
+        for (int i = 0; i < Player.Length; i++)
+        {
+            ObstacleList.Add(new List<string>());
+        }
 
         for (int i = 0; i < indexLanes.Length; i++)
         {
             indexLanes[i] = 1;
         }
 
-        for (int i = 0; i < Player.Length; i++)
+        for (int i = 0; i < indexLanes.Length; i++)
         {
-           CurrentLanes[i] = Lanes[i].GetChild(indexLanes[i]);
+            indexLanes[i] = 1;
         }
         for (int i = 0; i < Player.Length; i++)
         {
             endGame[i] = false;
         }
-
+        for (int i = 0; i < Player.Length; i++)
+        {
+            CurrentLanes[i] = Lanes[i].GetChild(indexLanes[i]);
+        }
     }
 
     public bool isEndGame(int playerIndex)
@@ -98,6 +117,10 @@ public class GameManager : Singleton<GameManager>
     {
         return CurrentLanes[playerIndex].transform;
     }
+
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -110,14 +133,25 @@ public class GameManager : Singleton<GameManager>
                 ResetPlayerPos(i);
                 obManager.SpawObject();
             }
+            if (Vector3.Distance(Player[i].transform.position, Target[i].position)<60f && dropOtherObstacles[i])
+                {
+                    if (ObstacleList[i].Count > 0)
+                    {
 
-
+                        DropObstacle(i, ObstacleList[i][0]);
+                        ObstacleList[i].Remove(ObstacleList[i][0]);
+                        dropOtherObstacles[i] = false;
+                    }
+                }
         }
+
+
     }
 
         void ResetPlayerPos(int index)
         {
             PlayerPivot[index].GetComponent<SimpleMovement>().ResetTostart();
+            dropOtherObstacles[index] = true;
 
         }
 
@@ -128,8 +162,53 @@ public class GameManager : Singleton<GameManager>
             endGame[index] = false;
         }
 
+        public void AddDropObstacle(int indexPlayer,string ObstacleValue)
+        {
+             ObstacleList[indexPlayer].Add(ObstacleValue);
+        }
 
-        public void ObstacleTriggered(int playerIndex,GameObject collider)
+        public void DropObstacle(int indexPlayer,string ObstacleValue)
+        {
+            GameObject obstacle;
+            switch (ObstacleValue)
+            {
+            case "BouldersBelow":
+               
+                obstacle= StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
+                obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
+                obstacle.GetComponent<SnowBall>().Send(Vector3.forward);
+                    break;
+
+            case "BouldersAbove":
+               
+                obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z - 15f));          
+                obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
+                obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
+                break;
+
+            case "Freze":
+                StartCoroutine(Frost(indexPlayer));
+                break;
+
+            default:
+                Debug.Log(ObstacleValue);
+               
+                break;
+
+        }
+        }
+
+    IEnumerator Frost(int indexPlayer)
+    {
+        PlayerPivot[indexPlayer].transform.GetChild(indexPlayer).GetComponent<FrostEffect>().FrostAmount = 0.5f;
+        PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed -= 2.5f;
+        yield return new WaitForSeconds(4.5f);
+        PlayerPivot[indexPlayer].transform.GetChild(indexPlayer).GetComponent<FrostEffect>().FrostAmount = 0f;
+        PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed += 2.5f;
+    }
+
+
+    public void ObstacleTriggered(int playerIndex,GameObject collider)
         {
             
         switch(collider.ReturnTags()[0])
@@ -144,7 +223,12 @@ public class GameManager : Singleton<GameManager>
                 PlayerPivot[playerIndex].GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowMan>().getSlowFactor());
                 break;
 
-            case "SnowBall":
+            case "BouldersBelow":
+                collider.GetComponent<SnowBall>().SnowImpact();
+                PlayerPivot[playerIndex].GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowBall>().getSlowFactor());
+                break;
+
+            case "BouldersAbove":
                 collider.GetComponent<SnowBall>().SnowImpact();
                 PlayerPivot[playerIndex].GetComponent<PlayerMovement>().Slow(collider.GetComponent<SnowBall>().getSlowFactor());
                 break;

@@ -81,6 +81,9 @@ public class UIInGame : MonoBehaviour
     public void RemoveCardMyHand(int i)
     {
         Deck.Instance<Deck>().InsertTail(cards[i]);
+        // devo passare l'indice del giocatore giocatore 1 o 0
+        GameManager.Instance<GameManager>().AddDropObstacle(1,cards[i].value.ToString());
+
         cards[i] = null;
         myHand[i].gameObject.SetActive(false);
         cardInHand--;
