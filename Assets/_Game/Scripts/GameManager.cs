@@ -84,13 +84,13 @@ public class GameManager : Singleton<GameManager>
 
     void ResetPlayerPos()
     {
-        playerPivot.GetComponent<PlayerMovement>().ResetTostart();
+        playerPivot.GetComponent<SimpleMovement>().ResetTostart();
         
     }
 
     void StartGame()
     {
-        playerPivot.GetComponent<PlayerMovement>().StartGame();
+        playerPivot.GetComponent<SimpleMovement>().StartGame();
         endGame = false;
     }
 

@@ -573,6 +573,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4341309144451084, guid: aa391bc856d062944ba51d0d2c858a1c,
     type: 2}
   m_PrefabInternal: {fileID: 769864801}
+--- !u!4 &510371853 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4535719058043472, guid: aa391bc856d062944ba51d0d2c858a1c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1272064334}
 --- !u!1001 &589812584
 Prefab:
   m_ObjectHideFlags: 0
@@ -1220,6 +1225,11 @@ Prefab:
     - {fileID: 114461025783718514, guid: 8cb0ce6542f960746a370a6b5c1cca13, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8cb0ce6542f960746a370a6b5c1cca13, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &825527454 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4341309144451084, guid: aa391bc856d062944ba51d0d2c858a1c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1087211901}
 --- !u!1001 &885880279
 Prefab:
   m_ObjectHideFlags: 0
@@ -1515,6 +1525,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4318628638369928, guid: c22ebfcbf8751a14fa0b448939ed58a8,
     type: 2}
   m_PrefabInternal: {fileID: 1507217444}
+--- !u!4 &1070481774 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4799147422153438, guid: aa391bc856d062944ba51d0d2c858a1c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1087211901}
 --- !u!1 &1086140313 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1623169025305730, guid: 8cb0ce6542f960746a370a6b5c1cca13,
@@ -1933,10 +1948,15 @@ MonoBehaviour:
   ObstaclesAreas:
   - {fileID: 1281898648}
   - {fileID: 802159035}
+  - {fileID: 1781147026}
+  - {fileID: 510371853}
   Lanes:
   - {fileID: 460338809}
   - {fileID: 1930060520}
   - {fileID: 181260094}
+  - {fileID: 825527454}
+  - {fileID: 1653465598}
+  - {fileID: 1070481774}
   ObstaclePrefabs:
   - {fileID: 1026591129701872, guid: 669c566fd78b13440812f36ff1243c03, type: 2}
   - {fileID: 1698392705306870, guid: 766d3eaecafcd9a4b93ed64ea5a9962c, type: 2}
@@ -2384,6 +2404,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &1653465598 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4497101322457674, guid: aa391bc856d062944ba51d0d2c858a1c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1087211901}
 --- !u!1 &1666484001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,6 +2530,11 @@ Transform:
   m_Father: {fileID: 1816322501}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1781147026 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4535719058043472, guid: aa391bc856d062944ba51d0d2c858a1c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1087211901}
 --- !u!4 &1784635091 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4371076076268308, guid: c22ebfcbf8751a14fa0b448939ed58a8,
@@ -2518,6 +2548,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1816322501}
+  - component: {fileID: 1816322502}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -2540,6 +2571,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816322502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1816322500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90857b085740e21489f173b2ac559b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  JumpIntensity: 300
 --- !u!1 &1903933665
 GameObject:
   m_ObjectHideFlags: 0
