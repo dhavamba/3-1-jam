@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour 
-{
 
-    
-    public float speed = 4f;
-    private float StartSpeed;
-    public float JumpIntensity=300f;
-    private float speedFactor = 0.05f;
-    private Vector3 startPosition;
-    Transform target;
-    GameManager gm;
+public class PlayerMovement : SimpleMovement
+{
+    private Transform target;
+    private GameManager gm;
 
     // Use this for initialization
     void Start()
     {
         gm = GameManager.Instance<GameManager>();
+
         startPosition = transform.position;
         StartSpeed = speed;
         InvokeRepeating("IncreaseSpeed", 2.5f,2.5f);
@@ -27,11 +22,11 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.position=startPosition;
         speed = StartSpeed;
-        
+
     }
 	
 	// Update is called once per frame
-	void Update ()
+	protected override void Update ()
     {
         
         if (!gm.isEndGame())
@@ -66,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    
 
     public void ResetTostart()
     {
@@ -82,9 +76,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if(speed - slowFactor * speedFactor > StartSpeed/2)
             speed -= slowFactor * speedFactor;
+            else
+            {
+                Translate();
+            }
+        }  
     }
-
-    
-
-
 }

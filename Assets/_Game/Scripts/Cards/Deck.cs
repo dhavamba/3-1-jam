@@ -36,9 +36,16 @@ public class Deck : Singleton<Deck>
 
     public Card Pop()
     {
-        Card aux = deck[deck.Count - 1];
-        deck.RemoveAt(deck.Count - 1);
-        return aux;
+        if (deck.Count != 0)
+        {
+            Card aux = deck[deck.Count - 1];
+            deck.RemoveAt(deck.Count - 1);
+            return aux;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void InsertTail(Card c)
