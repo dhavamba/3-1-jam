@@ -444,7 +444,6 @@ GameObject:
   - component: {fileID: 20093959571961924}
   - component: {fileID: 124793627223660068}
   - component: {fileID: 81569831313207510}
-  - component: {fileID: 114893694493411794}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2571,6 +2570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   JumpIntensity: 5
+  indexPlayer: 0
 --- !u!114 &114609584976204508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2583,18 +2583,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lateralSpeed: 5
---- !u!114 &114893694493411794
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1459343678583410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3fefacc7730d194eaa180d2a2188802, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curveStrength: 0.005
 --- !u!124 &124793627223660068
 Behaviour:
   m_ObjectHideFlags: 1
