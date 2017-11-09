@@ -3,7 +3,7 @@
 public class Card : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    private float speed=5f;
     [SerializeField]
     public ValueCard value;
 
@@ -27,5 +27,11 @@ public class Card : MonoBehaviour
     public override string ToString()
     {
         return value.ToString();
+    }
+
+    public float getSpeed()
+    {
+
+        return speed;
     }
 }

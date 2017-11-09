@@ -131,7 +131,7 @@ public class GameManager : Singleton<GameManager>
                 ResetPlayerPos(i);
                 obManager.SpawObject();
             }
-            if (Vector3.Distance(Player[i].transform.position, Target[i].position)<60f && dropOtherObstacles[i])
+            if (Vector3.Distance(Player[i].transform.position, Target[i].position)>20f && dropOtherObstacles[i])
                 {
                     if (ObstacleList[i].Count > 0)
                     {
@@ -162,10 +162,14 @@ public class GameManager : Singleton<GameManager>
 
         public void AddDropObstacle(int indexPlayer, ValueCard ObstacleValue)
         {
-             ObstacleList[indexPlayer].Add(ObstacleValue);
+            if(indexPlayer==0)
+                 ObstacleList[1].Add(ObstacleValue);
+            else
+                ObstacleList[0].Add(ObstacleValue);
+
         }
 
-        public void DropObstacle(int indexPlayer, ValueCard ObstacleValue)
+    public void DropObstacle(int indexPlayer, ValueCard ObstacleValue)
         {
             GameObject obstacle;
             switch (ObstacleValue)
@@ -174,15 +178,16 @@ public class GameManager : Singleton<GameManager>
                
                 obstacle= StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
                 obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
-                obstacle.GetComponent<SnowBall>().Send(Vector3.forward);
+                obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
                     break;
-
+            /*
             case ValueCard.BouldersAbove:
                
                 obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z - 15f));          
                 obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
                 obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
                 break;
+            */
 
             case ValueCard.Freze:
                 StartCoroutine(Frost(indexPlayer));
@@ -205,10 +210,10 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator Frost(int indexPlayer)
     {
-        PlayerPivot[indexPlayer].transform.GetChild(indexPlayer).GetComponent<FrostEffect>().FrostAmount = 0.5f;
+        PlayerPivot[indexPlayer].transform.GetChild(1).GetComponent<FrostEffect>().FrostAmount = 0.5f;
         PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed -= 2.5f;
         yield return new WaitForSeconds(4.5f);
-        PlayerPivot[indexPlayer].transform.GetChild(indexPlayer).GetComponent<FrostEffect>().FrostAmount = 0f;
+        PlayerPivot[indexPlayer].transform.GetChild(1).GetComponent<FrostEffect>().FrostAmount = 0f;
         PlayerPivot[indexPlayer].GetComponent<PlayerMovement>().speed += 2.5f;
     }
 
@@ -252,6 +257,11 @@ public class GameManager : Singleton<GameManager>
         }
         
         }
+
+    public float getPlayerSpeed(int index)
+    {
+        return PlayerPivot[index].GetComponent<PlayerMovement>().speed;
+    }
             
         }
 

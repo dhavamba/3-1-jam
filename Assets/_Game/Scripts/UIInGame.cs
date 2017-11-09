@@ -10,14 +10,14 @@ public class UIInGame : Singleton<UIInGame>
     private List<Transform>[] myHand;
     private int[] cardInHand;
     private Card[,] cards;
-
+    GameManager gm;
     [SerializeField]
     private Sprite[] sprites;
-
+    public Text[] SpeedPlayer;
     private void Awake()
     {
         cardInHand = new int[2];
-
+        gm = GameManager.Instance<GameManager>();
         cards = new Card[2,3];
 
         myHand = new List<Transform>[2];
@@ -83,10 +83,10 @@ public class UIInGame : Singleton<UIInGame>
 
     public void RemoveCardMyHand(int player, int i)
     {
-        if (cards[player, i]?.value != null)
+        if (cards[player, i]?.value != null &&  gm.getPlayerSpeed(player)>cards[player, i].getSpeed())
         {
-            // devo passare l'indice del giocatore giocatore 1 o 0
-            GameManager.Instance<GameManager>().AddDropObstacle(player, cards[player, i].value);
+            
+            gm.AddDropObstacle(player, cards[player, i].value);
             EliminateCard(player, i);
         }
     }
@@ -109,5 +109,25 @@ public class UIInGame : Singleton<UIInGame>
             }
         }
         return -1;
+    }
+
+    public void Update()
+    {
+        for(int i=0;i<SpeedPlayer.Length;i++)
+        {
+            SpeedPlayer[i].text = gm.getPlayerSpeed(i).ToString("0.00")+"Km/h";
+        }
+
+        /*
+        for(int i=0;i<myHand.Length;i++)
+        {
+            for(int j=0;j<myHand[i].Count;j++)
+            {
+               
+            }
+
+
+        }
+        */
     }
 }
