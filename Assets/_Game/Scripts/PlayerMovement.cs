@@ -53,7 +53,7 @@ public class PlayerMovement : SimpleMovement
             }
             else
             {
-                if (Input.GetKeyDown("j"))
+                if (Input.GetKeyDown("l"))
                 {
                     gm.ShiftleftLane(indexPlayer);
                 }
@@ -61,7 +61,7 @@ public class PlayerMovement : SimpleMovement
                 {
                     gm.Jump(indexPlayer, JumpIntensity);
                 }
-                else if (Input.GetKeyDown("l"))
+                else if (Input.GetKeyDown("j"))
                 {
                     gm.ShiftRightLane(indexPlayer);
                 }
