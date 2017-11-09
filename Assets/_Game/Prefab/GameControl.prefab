@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4175082976793350}
   - component: {fileID: 114388577792418276}
   - component: {fileID: 114043146670259046}
+  - component: {fileID: 114548739100509530}
   m_Layer: 0
   m_Name: GameControl
   m_TagString: Untagged
@@ -52,7 +53,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ead9ec074eac5439492f674bbcc0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowDuplicate: 0
 --- !u!114 &114388577792418276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,3 +65,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDeck: 5
+--- !u!114 &114548739100509530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1276738528664532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661b0b2535a38fd4bb01bb86e4e8d597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: 0
