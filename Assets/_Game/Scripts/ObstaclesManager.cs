@@ -25,12 +25,12 @@ public class ObstaclesManager : MonoBehaviour
         }
     }
 
-    public GameObject getDropObstacle(string tag)
+    public GameObject getDropObstacle(ValueCard tag)
     {
         foreach (GameObject o in DropObstaclePrefab)
         {
             Debug.Log(tag);
-            if (o.HaveTags(tag))
+            if (o.HaveTags(tag.ToString()))
             {
                 return o;
             }

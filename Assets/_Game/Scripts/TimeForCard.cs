@@ -7,7 +7,7 @@ public class TimeForCard : MonoBehaviour
     [SerializeField]
     private float time;
 
-    public delegate void Action(Card card);
+    public delegate void Action(int player, Card card);
     public static event Action Change;
 
     private void Awake()
@@ -19,7 +19,8 @@ public class TimeForCard : MonoBehaviour
     {
         if (Change != null)
         {
-            Change(Deck.Instance<Deck>().Pop());
+            Change(0, Deck.Instance<Deck>().Pop(0));
+            Change(1, Deck.Instance<Deck>().Pop(1));
         }
         Invoke("CreateCard", time);
     }

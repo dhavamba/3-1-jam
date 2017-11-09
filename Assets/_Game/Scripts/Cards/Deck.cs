@@ -5,41 +5,44 @@ using UnityEngine;
 public class Deck : Singleton<Deck>
 {
     public int maxDeck;
-    private List<Card> deck;
+    private List<Card>[] deck;
 
     private void Awake()
     {
-        deck = new List<Card>();
+        deck = new List<Card>[2];
+        deck[0] = new List<Card>();
+        deck[1] = new List<Card>();
     }
 
     public delegate void Action(int number, Card a, bool add);
     public static event Action Change;
 
-    private void RandomDeck()
+    private void RandomDeck(int player)
     {
-        List<Card> auxDeck = deck;
+        List<Card> auxDeck = deck[player];
 
         for (int i = 0; i < maxDeck; i++)
         {
-            int aux = Random.Range(0, deck.Count - 1);
-            auxDeck.Add(deck[aux]);
-            deck.RemoveAt(aux);
+            int aux = Random.Range(0, deck[player].Count - 1);
+            auxDeck.Add(deck[player][aux]);
+            deck[player].RemoveAt(aux);
         }
 
-        deck = auxDeck;
+        deck[player] = auxDeck;
     }
 
-    private void Clear()
+    private void Clear(int player)
     {
-        deck.Clear();
+        deck[player].Clear();
     }
 
-    public Card Pop()
+    public Card Pop(int player)
     {
-        if (deck.Count != 0)
+        int tmp = deck[player].Count;
+        if (tmp != 0)
         {
-            Card aux = deck[deck.Count - 1];
-            deck.RemoveAt(deck.Count - 1);
+            Card aux = deck[player][tmp - 1];
+            deck[player].RemoveAt(tmp - 1);
             return aux;
         }
         else
@@ -48,45 +51,45 @@ public class Deck : Singleton<Deck>
         }
     }
 
-    public void InsertTail(Card c)
+    public void InsertTail(int player, Card c)
     {
-        deck.Insert(0, c);
+        deck[player].Insert(0, c);
     }
 
-    public bool IsFull()
+    public bool IsFull(int player)
     {
-        if (deck.Count == maxDeck)
+        if (deck[player].Count == maxDeck)
         {
-            RandomDeck();
+            RandomDeck(player);
             return true;
         }
         return false;
     }
 
-    public void AddDeck(Card c)
+    public void AddDeck(int player, Card c)
     {
-        if (deck.Count < maxDeck)
+        if (deck[player].Count < maxDeck)
         {
-            deck.Add(c);
-            CallEvent(c, true);
+            deck[player].Add(c);
+            CallEvent(player, c, true);
         }
     }
 
-    public void RemoveDeck(Card c)
+    public void RemoveDeck(int player, Card c)
     {
-        int aux = deck.FindIndex(x => x.Equals(c));
+        int aux = deck[player].FindIndex(x => x.Equals(c));
         if (aux != -1)
         {
-            deck.RemoveAt(aux);
-            CallEvent(c, false);
+            deck[player].RemoveAt(aux);
+            CallEvent(player, c, false);
         }
     }
 
-    private void CallEvent(Card c, bool add)
+    private void CallEvent(int player, Card c, bool add)
     {
         if (Change != null)
         {
-            Change(deck.Count, c, add);
+            Change(deck[player].Count, c, add);
         }
     }
 }

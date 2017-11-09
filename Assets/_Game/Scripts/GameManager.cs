@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
     // 0 è LA LISTA DEGLI OGGETTI DA DROPPARE SUL GIOCATORE 0(INVIATI DAL GIOCATORE 1)
     // 1 è LA LISTA DEGLI OGGETTI DA DROPPARE SUL GIOCATORE 1(INVIATI DAL GIOCATORE 0)
 
-    private List<List<string>> ObstacleList;
+    private List<List<ValueCard>> ObstacleList;
     private int [] indexLanes;
     private bool[] dropOtherObstacles;
 
@@ -30,8 +30,6 @@ public class GameManager : Singleton<GameManager>
 	void Start ()
     {
         obManager = GetComponent<ObstaclesManager>();
-
-
     }
 
     
@@ -40,7 +38,7 @@ public class GameManager : Singleton<GameManager>
         indexLanes = new int[Player.Length];
         CurrentLanes = new Transform[Player.Length];
         endGame = new bool[Player.Length];
-        ObstacleList = new List<List<string>>();
+        ObstacleList = new List< List<ValueCard> >();
         dropOtherObstacles = new bool[Player.Length];
         for (int i = 0; i < Player.Length; i++)
         {
@@ -48,7 +46,7 @@ public class GameManager : Singleton<GameManager>
         }
         for (int i = 0; i < Player.Length; i++)
         {
-            ObstacleList.Add(new List<string>());
+            ObstacleList.Add(new List<ValueCard>());
         }
 
         for (int i = 0; i < indexLanes.Length; i++)
@@ -162,39 +160,39 @@ public class GameManager : Singleton<GameManager>
             endGame[index] = false;
         }
 
-        public void AddDropObstacle(int indexPlayer,string ObstacleValue)
+        public void AddDropObstacle(int indexPlayer, ValueCard ObstacleValue)
         {
              ObstacleList[indexPlayer].Add(ObstacleValue);
         }
 
-        public void DropObstacle(int indexPlayer,string ObstacleValue)
+        public void DropObstacle(int indexPlayer, ValueCard ObstacleValue)
         {
             GameObject obstacle;
             switch (ObstacleValue)
             {
-            case "BouldersBelow":
+            case ValueCard.BouldersBelow:
                
                 obstacle= StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
                 obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
                 obstacle.GetComponent<SnowBall>().Send(Vector3.forward);
                     break;
 
-            case "BouldersAbove":
+            case ValueCard.BouldersAbove:
                
                 obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z - 15f));          
                 obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
                 obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
                 break;
 
-            case "Freze":
+            case ValueCard.Freze:
                 StartCoroutine(Frost(indexPlayer));
                 break;
 
-            case "SpeedUp":
+            case ValueCard.SpeedUp:
                 StartCoroutine(SpeedUp(indexPlayer,3.5f));
                 break;
 
-            case "Pillars":
+            case ValueCard.Pillars:
                 obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
                 break;
             default:

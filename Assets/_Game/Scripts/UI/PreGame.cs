@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PreGame : MonoBehaviour
 {
+    [SerializeField]
+    private int player;
     private Text numberText;
     public Dictionary<ValueCard, Text> dict;
 
@@ -32,8 +34,8 @@ public class PreGame : MonoBehaviour
         {
             Card card = imageCard.GetComponent<Card>();
             dict.Add(card.value, imageCard.GetComponentInChildren<Text>());
-            imageCard.Find("Add").GetComponent<Button>().onClick.AddListener(delegate { Deck.Instance<Deck>().AddDeck(card); });
-            imageCard.Find("Remove").GetComponent<Button>().onClick.AddListener(delegate { Deck.Instance<Deck>().RemoveDeck(card); });
+            imageCard.Find("Add").GetComponent<Button>().onClick.AddListener(delegate { Deck.Instance<Deck>().AddDeck(player, card); });
+            imageCard.Find("Remove").GetComponent<Button>().onClick.AddListener(delegate { Deck.Instance<Deck>().RemoveDeck(player, card); });
         }
     }
 
@@ -50,11 +52,29 @@ public class PreGame : MonoBehaviour
         }
     }
 
+    private void Clear()
+    {
+        numberText.text = 0 + "";
+        foreach (ValueCard value in dict.Keys)
+        {
+            dict[value].text = 0 + "";
+        }
+    }
+
     public void OnStart()
     {
-        if (Deck.Instance<Deck>().IsFull())
+        if (Deck.Instance<Deck>().IsFull(player))
         {
-            SceneManager.LoadScene(2);
+            if (player == 0)
+            {
+                Clear();
+                GameObject.Find("Player").GetComponent<Text>().text = "Player 2";
+                player++;
+            }
+            else
+            {
+                SceneManager.LoadScene(2);
+            }
         }
     }
 }
