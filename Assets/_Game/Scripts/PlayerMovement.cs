@@ -40,15 +40,15 @@ public class PlayerMovement : SimpleMovement
                 }
                 else if (Input.GetKeyDown("1"))
                 {
-                    UIInGame.Instance<UIInGame>().RemoveCardMyHand("00");
+                    UIInGame.Instance<UIInGame>().RemoveCardMyHand(0,0);
                 }
                 else if (Input.GetKeyDown("2"))
                 {
-                    UIInGame.Instance<UIInGame>().RemoveCardMyHand("01");
+                    UIInGame.Instance<UIInGame>().RemoveCardMyHand(0,1);
                 }
                 else if (Input.GetKeyDown("3"))
                 {
-                    UIInGame.Instance<UIInGame>().RemoveCardMyHand("02");
+                    UIInGame.Instance<UIInGame>().RemoveCardMyHand(0,2);
                 }
             }
             else
@@ -67,15 +67,15 @@ public class PlayerMovement : SimpleMovement
                 }
                 else if (Input.GetKeyDown("8"))
                 {
-                    UIInGame.Instance<UIInGame>().RemoveCardMyHand("10");
+                    UIInGame.Instance<UIInGame>().RemoveCardMyHand(1,0);
                 }
                 else if (Input.GetKeyDown("9"))
                 {
-                    UIInGame.Instance<UIInGame>().RemoveCardMyHand("11");
+                    UIInGame.Instance<UIInGame>().RemoveCardMyHand(1,1);
                 }
                 else if (Input.GetKeyDown("0"))
                 {
-                    UIInGame.Instance<UIInGame>().RemoveCardMyHand("12");
+                    UIInGame.Instance<UIInGame>().RemoveCardMyHand(1,2);
                 }
             }
             transform.Translate(Vector3.forward * speed * Time.deltaTime);

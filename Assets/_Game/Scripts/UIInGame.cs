@@ -81,14 +81,14 @@ public class UIInGame : Singleton<UIInGame>
         cardInHand[player]++;
     }
 
-    public void RemoveCardMyHand(string aux)
+    public void RemoveCardMyHand(int player, int i)
     {
-        int player = Int32.Parse(aux[0] + "");
-        int i = Int32.Parse(aux[1] + "");
-
-        // devo passare l'indice del giocatore giocatore 1 o 0
-        GameManager.Instance<GameManager>().AddDropObstacle(player, cards[player,i].value);
-        EliminateCard(player, i);
+        if (cards[player, i]?.value != null)
+        {
+            // devo passare l'indice del giocatore giocatore 1 o 0
+            GameManager.Instance<GameManager>().AddDropObstacle(player, cards[player, i].value);
+            EliminateCard(player, i);
+        }
     }
 
     private void EliminateCard(int player, int i)
