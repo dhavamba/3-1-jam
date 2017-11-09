@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
 
     public Transform[] Lanes;
 
+
     private  Transform[] CurrentLanes;
 
     // 0 è LA LISTA DEGLI OGGETTI DA DROPPARE SUL GIOCATORE 0(INVIATI DAL GIOCATORE 1)
@@ -128,6 +129,7 @@ public class GameManager : Singleton<GameManager>
             {
                 Debug.Log("Reset");
                 obManager.ResetObstaclesArea();
+                PlayerPivot[i].GetComponent<PlayerMovement>().AddLap();
                 ResetPlayerPos(i);
                 obManager.SpawObject();
             }
@@ -148,13 +150,16 @@ public class GameManager : Singleton<GameManager>
 
         void ResetPlayerPos(int index)
         {
+            
             PlayerPivot[index].GetComponent<SimpleMovement>().ResetTostart();
+            
             dropOtherObstacles[index] = true;
 
         }
 
           IEnumerator StartGame(int index)
         {
+            PlayerPivot[index].GetComponent<PlayerMovement>().ResetLap();
             yield return new WaitForSeconds(1.5f);
             PlayerPivot[index].GetComponent<SimpleMovement>().StartGame();
             endGame[index] = false;
@@ -199,6 +204,7 @@ public class GameManager : Singleton<GameManager>
 
             case ValueCard.Pillars:
                 obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
+
                 break;
             default:
                 Debug.Log(ObstacleValue);
@@ -232,7 +238,9 @@ public class GameManager : Singleton<GameManager>
         {
             case "Truck":
                 endGame[playerIndex] = true;
+                PlayerPivot[playerIndex].GetComponent<PlayerMovement>().LostLife();
                 StartCoroutine(StartGame(playerIndex));
+              
                 break;
 
             case "SnowMan":
@@ -252,6 +260,7 @@ public class GameManager : Singleton<GameManager>
 
             case "Pillars":
                 endGame[playerIndex] = true;
+                PlayerPivot[playerIndex].GetComponent<PlayerMovement>().LostLife();
                 StartCoroutine(StartGame(playerIndex));
                 break;
         }
@@ -262,6 +271,11 @@ public class GameManager : Singleton<GameManager>
     {
         return PlayerPivot[index].GetComponent<PlayerMovement>().speed;
     }
-            
-        }
+
+    public int getPlayerScore(int index)
+    {
+        return PlayerPivot[index].GetComponent<PlayerMovement>().getScore();
+    }
+
+}
 

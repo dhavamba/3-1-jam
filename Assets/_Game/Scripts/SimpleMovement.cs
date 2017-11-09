@@ -7,14 +7,14 @@ public class SimpleMovement : MonoBehaviour
     public float speed = 4f;
     private float StartSpeed;
     public float JumpIntensity = 300f;
-    private float speedFactor = 0.05f;
+    private float speedFactor = 0.1f;
     private Vector3 startPosition;
 
     private void Awake()
     {
         startPosition = transform.position;
         StartSpeed = speed;
-        InvokeRepeating("IncreaseSpeed", 2.5f, 2.5f);
+        InvokeRepeating("IncreaseSpeed", 4f, 4f);
     }
 
     public void StartGame()
@@ -45,5 +45,8 @@ public class SimpleMovement : MonoBehaviour
     protected void Translate()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        
     }
+
+ 
 }

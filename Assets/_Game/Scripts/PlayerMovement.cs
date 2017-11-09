@@ -7,6 +7,9 @@ public class PlayerMovement : SimpleMovement
 {
     private Transform target;
     private GameManager gm;
+    private int Life=3;
+    private int Score = 0;
+    private int lap=0;
 
     public int indexPlayer;
 
@@ -16,12 +19,31 @@ public class PlayerMovement : SimpleMovement
         gm = GameManager.Instance<GameManager>();
     }
 
-    
+    public void LostLife()
+    {
+        if(Life>0)
+            Life -= 1;
+    }
+
+    public int getScore()
+    {
+        return Score;
+    }
+
+    public void AddLap()
+    {
+        lap += 100;
+    }
+
+    public void ResetLap()
+    {
+        lap = 0;
+    }
 	
 	// Update is called once per frame
 	protected override void Update ()
     {
-        if (!gm.isEndGame(indexPlayer))
+        if (!gm.isEndGame(indexPlayer) && Life>0)
         {
             // DA TOGLIEREEEEEEEEEEEEEEEEEEEEEEEEEEEEE
             if (indexPlayer == 0)
@@ -79,7 +101,7 @@ public class PlayerMovement : SimpleMovement
                 }
             }
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
-           
+            Score = (int)(transform.position.z)+lap;
         }
         
     }

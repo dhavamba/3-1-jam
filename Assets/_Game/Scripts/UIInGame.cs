@@ -14,6 +14,9 @@ public class UIInGame : Singleton<UIInGame>
     [SerializeField]
     private Sprite[] sprites;
     public Text[] SpeedPlayer;
+    public Text[] Score;
+
+
     private void Awake()
     {
         cardInHand = new int[2];
@@ -117,6 +120,12 @@ public class UIInGame : Singleton<UIInGame>
         {
             SpeedPlayer[i].text = gm.getPlayerSpeed(i).ToString("0.00")+"Km/h";
         }
+
+        for (int i = 0; i < SpeedPlayer.Length; i++)
+        {
+            Score[i].text = "SCORE: "+gm.getPlayerScore(i).ToString();
+        }
+
 
         /*
         for(int i=0;i<myHand.Length;i++)
