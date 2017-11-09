@@ -55,7 +55,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         return _Instance;
     }
 
-    public void OnDestroy()
+    protected virtual void OnDestroy()
     {
         _instance = null;
     }
