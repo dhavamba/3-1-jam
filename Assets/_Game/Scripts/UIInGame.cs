@@ -25,15 +25,16 @@ public class UIInGame : Singleton<UIInGame>
 
         myHand = new List<Transform>[2];
         myHand[0] = new List<Transform>();
-        Transform aux = transform.Find("Player 1/MyHand");
-        myHand[0].Add(aux.GetChild(0));
-        myHand[0].Add(aux.GetChild(1));
-        myHand[0].Add(aux.GetChild(2));
         myHand[1] = new List<Transform>();
-        aux = transform.Find("Player 2/MyHand");
-        myHand[1].Add(aux.GetChild(0));
-        myHand[1].Add(aux.GetChild(1));
-        myHand[1].Add(aux.GetChild(2));
+        Transform aux1 = transform.Find("Player 1/MyHand");
+        Transform aux2 = transform.Find("Player 2/MyHand");
+        for (int i = 0; i < aux1.childCount; i++)
+        {
+            myHand[0].Add(aux1.GetChild(i));
+            aux1.GetChild(i).gameObject.SetActive(false);
+            myHand[1].Add(aux2.GetChild(i));
+            aux2.GetChild(i).gameObject.SetActive(false);
+        }
 
         spriteCard = new Dictionary<ValueCard, Sprite>();
 
