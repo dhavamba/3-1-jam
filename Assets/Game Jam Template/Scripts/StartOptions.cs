@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class StartOptions : MonoBehaviour {
 
@@ -92,8 +92,9 @@ public class StartOptions : MonoBehaviour {
 		//Hide the main menu UI element
 		showPanels.HideMenu ();
 
-		//Load the selected scene, by scene index number in build settings
-		SceneManager.LoadScene (sceneToStart);
+        //Load the selected scene, by scene index number in build settings
+        GetComponent<Image>().enabled = false;
+        SceneManager.LoadScene (sceneToStart);
 	}
 
 	public void HideDelayed()
@@ -106,6 +107,7 @@ public class StartOptions : MonoBehaviour {
 	{
 		//Pause button now works if escape is pressed since we are no longer in Main menu.
 		inMainMenu = false;
+        GetComponent<Image>().enabled = false;
 
 		//If changeMusicOnStart is true, fade out volume of music group of AudioMixer by calling FadeDown function of PlayMusic, using length of fadeColorAnimationClip as time. 
 		//To change fade time, change length of animation "FadeToColor"

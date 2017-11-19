@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : Singleton<GameManager>
 {
 
@@ -128,33 +129,36 @@ public class GameManager : Singleton<GameManager>
             if (Vector3.Distance(Player[i].transform.position, Target[i].position) < 2f)
             {
                 Debug.Log("Reset");
-                obManager.ResetObstaclesArea();
+                obManager.ResetObstaclesArea(i);
                 PlayerPivot[i].GetComponent<PlayerMovement>().AddLap();
                 ResetPlayerPos(i);
-                obManager.SpawObject();
+                obManager.SpawObject(i);
             }
-            if (Vector3.Distance(Player[i].transform.position, Target[i].position)>20f && dropOtherObstacles[i])
+            if (Vector3.Distance(Player[i].transform.position, Target[i].position) > 20f && dropOtherObstacles[i])
+            {
+                if (ObstacleList[i].Count > 0)
                 {
-                    if (ObstacleList[i].Count > 0)
-                    {
-
-                        DropObstacle(i, ObstacleList[i][0]);
-                        ObstacleList[i].Remove(ObstacleList[i][0]);
-                        dropOtherObstacles[i] = false;
-                    }
+                    StartCoroutine(WaitToDropObstacle(i));
                 }
+            }
         }
-
 
     }
 
+    IEnumerator WaitToDropObstacle(int i)
+    {
+        DropObstacle(i, ObstacleList[i][0]);
+        ObstacleList[i].Remove(ObstacleList[i][0]);
+        dropOtherObstacles[i] = false;   
+        yield return new WaitForSeconds(2.5f);
+        dropOtherObstacles[i] = true;
+
+    }
+
+
         void ResetPlayerPos(int index)
         {
-            
             PlayerPivot[index].GetComponent<SimpleMovement>().ResetTostart();
-            
-            dropOtherObstacles[index] = true;
-
         }
 
           IEnumerator StartGame(int index)
@@ -167,10 +171,15 @@ public class GameManager : Singleton<GameManager>
 
         public void AddDropObstacle(int indexPlayer, ValueCard ObstacleValue)
         {
-            if(indexPlayer==0)
-                 ObstacleList[1].Add(ObstacleValue);
+            if (ObstacleValue == ValueCard.SpeedUp)
+                ObstacleList[indexPlayer].Add(ObstacleValue);
             else
-                ObstacleList[0].Add(ObstacleValue);
+            {
+             if (indexPlayer == 0)
+                    ObstacleList[1].Add(ObstacleValue);
+                else
+                    ObstacleList[0].Add(ObstacleValue);
+            }
 
         }
 
@@ -181,7 +190,7 @@ public class GameManager : Singleton<GameManager>
             {
             case ValueCard.BouldersBelow:
                
-                obstacle= StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
+                obstacle= obManager.getDropObstacle(ObstacleValue).Spawn(new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
                 obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
                 obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
                     break;
@@ -203,7 +212,7 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             case ValueCard.Pillars:
-                obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
+                obstacle = obManager.getDropObstacle(ObstacleValue).Spawn(new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
 
                 break;
             default:

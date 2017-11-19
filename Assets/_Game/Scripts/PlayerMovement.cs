@@ -52,7 +52,7 @@ public class PlayerMovement : SimpleMovement
                 {
                     gm.ShiftleftLane(indexPlayer);
                 }
-                else if (Input.GetKeyDown(KeyCode.Space))
+                else if (Input.GetKeyDown("s"))
                 {
                     gm.Jump(indexPlayer, JumpIntensity);
                 }

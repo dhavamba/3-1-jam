@@ -23,7 +23,7 @@ public class SnowMan : MonoBehaviour {
 
     public void SnowImpact()
     {
-        StaticPool.Instantiate(ImpactPrefab, new Vector3(transform.position.x,transform.position.y+1f,transform.position.z));
-        StaticPool.Destroy(gameObject);
+        ImpactPrefab.Spawn(new Vector3(transform.position.x,transform.position.y+1f,transform.position.z));
+        gameObject.Recycle();
     }
 }

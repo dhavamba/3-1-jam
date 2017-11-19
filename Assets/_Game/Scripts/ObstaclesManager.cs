@@ -10,6 +10,9 @@ public class ObstaclesManager : MonoBehaviour
 
     private int curretEnviroment=0;
     private ObstacleArea[] Oas;
+
+    List<List<GameObject>> ObstaclesForArea;
+    
  
     // Use this for initialization
     public struct ObstacleArea
@@ -46,23 +49,31 @@ public class ObstaclesManager : MonoBehaviour
             Oas[i] = new ObstacleArea(ObstaclesAreas[i].GetChild(0), ObstaclesAreas[i].GetChild(1), ObstaclesAreas[i].parent.GetChild(0));
             
         }
-        SpawObject();
+        ObstaclesForArea = new List<List<GameObject>>();
+        for (int i = 0; i < GameManager.Instance<GameManager>().Player.Length; i++)
+            ObstaclesForArea.Add(new List<GameObject>());
+
+        for (int i=0;i<GameManager.Instance<GameManager>().Player.Length; i++)
+            SpawObject(i);
+
+       
+
     }
 
-    public void SpawObject()
+    public void SpawObject(int indexPlayer)
     {
 
-        for(int i= 0;i < Oas.Length;i++)
+        for(int i= indexPlayer*2; i < indexPlayer*2+2;i++)
         {
-            
 
+            Debug.Log("player "+indexPlayer+" case "+i);
             int range = Mathf.Abs((int)(Oas[i].start.z- Oas[i].end.z));
             int step = 1;
             while(step<range)
             {
                 //lancio una moneta per decidere se spawnare o no l'ostacolo
                 if (Random.Range(0, 5) == 1)
-                    step = RndObstacles(Oas[i].start.x,0.0f, Oas[i].start.z,step,Oas[i].lanes);
+                    step = RndObstacles(Oas[i].start.x,0.0f, Oas[i].start.z,step,Oas[i].lanes,indexPlayer);
                 else
                     step += 1;
                          
@@ -79,14 +90,16 @@ public class ObstaclesManager : MonoBehaviour
 		
 	}
 
-    int RndObstacles(float x,float y,float z,int Currentstep,Transform lanes)
+    int RndObstacles(float x,float y,float z,int Currentstep,Transform lanes,int playerIndex)
     {
+        GameObject g;
         //decido random se l'ostacolo occupa 1 o più di un blocco
-        switch(Random.Range(0,4))
+        switch (Random.Range(0,4))
         {
             // un blocco
             case 0:
-                InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0,3)).position.x, y, z+Currentstep));
+                g=(GameObject)InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0,3)).position.x, y, z+Currentstep));
+                ObstaclesForArea[playerIndex].Add(g);
                 Currentstep += 4;
                 break;
 
@@ -98,7 +111,8 @@ public class ObstaclesManager : MonoBehaviour
                 {
                     if(i!=excluded)
                     {
-                        InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0, 3)).position.x, y , z + Currentstep + 1));
+                        g = (GameObject)InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0, 3)).position.x, y , z + Currentstep + 1));
+                        ObstaclesForArea[playerIndex].Add(g);
                     }
 
                 }
@@ -116,8 +130,9 @@ public class ObstaclesManager : MonoBehaviour
             */
 
             default:
-                        InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0,3)).position.x, y, z + Currentstep));
+                        g = (GameObject)InstantiateObstacle(new Vector3(lanes.GetChild(Random.Range(0,3)).position.x, y, z + Currentstep));
                         Currentstep += 4;
+                        ObstaclesForArea[playerIndex].Add(g);
                         break;
         }
         return Currentstep;
@@ -125,19 +140,25 @@ public class ObstaclesManager : MonoBehaviour
     }
 
     
-    void InstantiateObstacle(Vector3 pos)
+    GameObject InstantiateObstacle(Vector3 pos)
     {
        
-       StaticPool.Instantiate(ObstaclePrefabs[Random.Range(0, ObstaclePrefabs.Length)],new Vector3(pos.x,pos.y,pos.z));
+       return ObstaclePrefabs[Random.Range(0, ObstaclePrefabs.Length)].Spawn(new Vector3(pos.x,pos.y,pos.z));
     }
 
-    public void ResetObstaclesArea()
+    public void ResetObstaclesArea(int indexPlayer)
     {
 
+        /*
         GameObject[] obstacles = MultiTags.FindGameObjectsWithMultiTags("Obstacle");
         foreach (GameObject o in obstacles)
             StaticPool.Destroy(o);
-        
+        */
+        Debug.Log(ObstaclesForArea[indexPlayer].Count);
+        foreach (GameObject ob in ObstaclesForArea[indexPlayer])
+                    ob.Recycle();
+
+        ObstaclesForArea[indexPlayer].Clear();
     }
 
 

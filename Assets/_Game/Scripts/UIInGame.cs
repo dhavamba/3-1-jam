@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public class UIInGame : Singleton<UIInGame>
 {
@@ -87,13 +88,22 @@ public class UIInGame : Singleton<UIInGame>
 
     public void RemoveCardMyHand(int player, int i)
     {
-        if (cards[player, i]?.value != null &&  gm.getPlayerSpeed(player)>cards[player, i].getSpeed())
+        if (cards[player, i]?.value != null && gm.getPlayerSpeed(player) > cards[player, i].getSpeed())
         {
-            
-            gm.AddDropObstacle(player, cards[player, i].value);
-            EliminateCard(player, i);
+            StartCoroutine(EffectWhenRemoveCard(player, i));
         }
     }
+
+    IEnumerator EffectWhenRemoveCard(int player, int i)
+    {
+        myHand[player][i].gameObject.transform.localScale = myHand[player][i].gameObject.transform.localScale * 2.0f;
+        yield return new WaitForSeconds(0.35f);
+        myHand[player][i].gameObject.transform.localScale= myHand[player][i].gameObject.transform.localScale / 2.0f;
+        gm.AddDropObstacle(player, cards[player, i].value);
+        EliminateCard(player, i);
+       
+    }
+
 
     private void EliminateCard(int player, int i)
     {
@@ -127,17 +137,6 @@ public class UIInGame : Singleton<UIInGame>
             Score[i].text = "SCORE: "+gm.getPlayerScore(i).ToString();
         }
 
-
-        /*
-        for(int i=0;i<myHand.Length;i++)
-        {
-            for(int j=0;j<myHand[i].Count;j++)
-            {
-               
-            }
-
-
-        }
-        */
+        
     }
 }

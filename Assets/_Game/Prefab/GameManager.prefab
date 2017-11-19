@@ -20,6 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4072904271977410}
   - component: {fileID: 114804712543416092}
+  - component: {fileID: 114702241193951924}
+  - component: {fileID: 114160131592666076}
+  - component: {fileID: 114818077421435866}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -40,6 +43,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114160131592666076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1054634980873604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefcd7d18827fb040ab72f4dceb027dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropsAreas:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PropsPrefab:
+  - {fileID: 1281205565946618, guid: bb0c6158702bf134da00eea13efc4e14, type: 2}
+  OffsetZ: 10
+  OffsetX: 2
+  scaleProps: 2
+--- !u!114 &114702241193951924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1054634980873604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2fbf1291734c8a45b061409fff028c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObstaclesAreas:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ObstaclePrefabs:
+  - {fileID: 1026591129701872, guid: 669c566fd78b13440812f36ff1243c03, type: 2}
+  - {fileID: 1698392705306870, guid: 766d3eaecafcd9a4b93ed64ea5a9962c, type: 2}
+  DropObstaclePrefab:
+  - {fileID: 1306072123492952, guid: 8e0e4382d970b3649b3f525caa0e7824, type: 2}
+  - {fileID: 1346449581023492, guid: 4478dafc11a54a54ebb9fc3f0cfeb8df, type: 2}
+  - {fileID: 1242048423895680, guid: 74946211bd0ea504d84d481f3bcbe969, type: 2}
 --- !u!114 &114804712543416092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,9 +102,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c76fde5129ec364a87a24a3fb66743b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lanes:
+  Lanes:
   - {fileID: 0}
   - {fileID: 0}
+  PlayerPivot:
   - {fileID: 0}
-  player: {fileID: 0}
-  Target: {fileID: 0}
+  - {fileID: 0}
+  Player:
+  - {fileID: 0}
+  - {fileID: 0}
+  Target:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &114818077421435866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1054634980873604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fab45f72c7dd4439579e286c1cf8db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 2.5

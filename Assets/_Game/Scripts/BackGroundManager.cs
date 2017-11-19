@@ -50,7 +50,7 @@ public class BackGroundManager : MonoBehaviour {
     
     void InstantiateProp(Vector3 pos)
     {
-        StaticPool.Instantiate(PropsPrefab[Random.Range(0, PropsPrefab.Length)], new Vector3(pos.x, pos.y, pos.z));
+        PropsPrefab[Random.Range(0, PropsPrefab.Length)].Spawn(new Vector3(pos.x, pos.y, pos.z));
     }
 
    

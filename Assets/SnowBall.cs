@@ -35,8 +35,8 @@ public class SnowBall : MonoBehaviour {
     }
     public void SnowImpact()
     {
-        StaticPool.Instantiate(ImpactPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z));
-        StaticPool.Destroy(gameObject);
+        ImpactPrefab.Spawn(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+        gameObject.Recycle();
     }
 
     public float getSlowFactor()
