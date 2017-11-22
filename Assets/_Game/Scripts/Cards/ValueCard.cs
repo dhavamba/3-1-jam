@@ -4,12 +4,11 @@ public enum ValueCard
     LateralWind,
     SlowDown,
     SpeedUp,
-    Freze,
+    Freeze,
     Invulnerable,
     Teleport,
     Pillars,
-    BouldersAbove,
-    BouldersBelow,
+    Boulders,
     Mix,
     GlassBlocks
 }

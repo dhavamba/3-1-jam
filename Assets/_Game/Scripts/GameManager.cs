@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -26,7 +26,7 @@ public class GameManager : Singleton<GameManager>
 
 
     public Transform [] Target;
-
+    bool End=false;
 
 
 	void Start ()
@@ -124,6 +124,8 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
+        if(!End)
+        { 
         for (int i = 0; i < Player.Length; i++)
         {
             if (Vector3.Distance(Player[i].transform.position, Target[i].position) < 2f)
@@ -141,9 +143,42 @@ public class GameManager : Singleton<GameManager>
                     StartCoroutine(WaitToDropObstacle(i));
                 }
             }
+
+
         }
 
+            if (PlayerPivot[0].GetComponent<PlayerMovement>().GetLife() == 0 || PlayerPivot[1].GetComponent<PlayerMovement>().GetLife() == 0)
+            {
+                if (PlayerPivot[1].GetComponent<PlayerMovement>().getScore() < PlayerPivot[0].GetComponent<PlayerMovement>().getScore())
+                {
+                    PlayerPivot[0].GetComponent<PlayerMovement>().setWinner(true);
+                    UIInGame.Instance<UIInGame>().setWinner(0, 1);
+                    End = true;
+                    StartCoroutine(ResetGame());
+
+
+                }
+                else
+                {
+                    PlayerPivot[1].GetComponent<PlayerMovement>().setWinner(true);
+                    UIInGame.Instance<UIInGame>().setWinner(1, 0);
+                    End = true;
+                    StartCoroutine(ResetGame());
+
+                }
+            }
+
+        }
+    
+
     }
+    IEnumerator ResetGame()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene(0);
+
+    }
+
 
     IEnumerator WaitToDropObstacle(int i)
     {
@@ -188,22 +223,14 @@ public class GameManager : Singleton<GameManager>
             GameObject obstacle;
             switch (ObstacleValue)
             {
-            case ValueCard.BouldersBelow:
+            case ValueCard.Boulders:
                
                 obstacle= obManager.getDropObstacle(ObstacleValue).Spawn(new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z + 15f));
                 obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
                 obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
                     break;
-            /*
-            case ValueCard.BouldersAbove:
-               
-                obstacle = StaticPool.Instantiate(obManager.getDropObstacle(ObstacleValue), new Vector3(Player[indexPlayer].transform.position.x, Player[indexPlayer].transform.position.y, Player[indexPlayer].transform.position.z - 15f));          
-                obstacle.GetComponent<SnowBall>().SetCamera(PlayerPivot[indexPlayer].transform.GetChild(1).transform);
-                obstacle.GetComponent<SnowBall>().Send(-Vector3.forward);
-                break;
-            */
-
-            case ValueCard.Freze:
+         
+            case ValueCard.Freeze:
                 StartCoroutine(Frost(indexPlayer));
                 break;
 
@@ -247,7 +274,10 @@ public class GameManager : Singleton<GameManager>
         {
             case "Truck":
                 endGame[playerIndex] = true;
+                UIInGame.Instance<UIInGame>().LostLife(playerIndex, PlayerPivot[playerIndex].GetComponent<PlayerMovement>().GetLife());
+
                 PlayerPivot[playerIndex].GetComponent<PlayerMovement>().LostLife();
+                
                 StartCoroutine(StartGame(playerIndex));
               
                 break;
@@ -270,6 +300,7 @@ public class GameManager : Singleton<GameManager>
             case "Pillars":
                 endGame[playerIndex] = true;
                 PlayerPivot[playerIndex].GetComponent<PlayerMovement>().LostLife();
+                UIInGame.Instance<UIInGame>().LostLife(playerIndex, PlayerPivot[playerIndex].GetComponent<PlayerMovement>().GetLife());
                 StartCoroutine(StartGame(playerIndex));
                 break;
         }

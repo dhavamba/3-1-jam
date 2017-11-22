@@ -18,9 +18,7 @@ MonoBehaviour:
     ID: 0
   - Name: SnowMan
     ID: 0
-  - Name: BouldersAbove
-    ID: 0
-  - Name: BouldersBelow
-    ID: 0
   - Name: Pillars
+    ID: 0
+  - Name: Boulders
     ID: 0

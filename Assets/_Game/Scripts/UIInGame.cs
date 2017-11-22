@@ -16,6 +16,8 @@ public class UIInGame : Singleton<UIInGame>
     private Sprite[] sprites;
     public Text[] SpeedPlayer;
     public Text[] Score;
+    public GameObject[] Life;
+    public  GameObject [] Winners;
 
 
     private void Awake()
@@ -31,6 +33,7 @@ public class UIInGame : Singleton<UIInGame>
         Transform aux2 = transform.Find("Player 2/MyHand");
         for (int i = 0; i < aux1.childCount; i++)
         {
+            
             myHand[0].Add(aux1.GetChild(i));
             aux1.GetChild(i).gameObject.SetActive(false);
             myHand[1].Add(aux2.GetChild(i));
@@ -42,14 +45,32 @@ public class UIInGame : Singleton<UIInGame>
         spriteCard[ValueCard.LateralWind] = sprites[0];
         spriteCard[ValueCard.SlowDown] = sprites[1];
         spriteCard[ValueCard.SpeedUp] = sprites[2];
-        spriteCard[ValueCard.Freze] = sprites[3];
+        spriteCard[ValueCard.Freeze] = sprites[3];
         spriteCard[ValueCard.Invulnerable] = sprites[4];
         spriteCard[ValueCard.Teleport] = sprites[5];
         spriteCard[ValueCard.Pillars] = sprites[6];
-        spriteCard[ValueCard.BouldersAbove] = sprites[7];
-        spriteCard[ValueCard.BouldersBelow] = sprites[8];
-        spriteCard[ValueCard.Mix] = sprites[9];
-        spriteCard[ValueCard.GlassBlocks] = sprites[10];
+        spriteCard[ValueCard.Boulders] = sprites[7];
+        spriteCard[ValueCard.Mix] = sprites[8];
+        spriteCard[ValueCard.GlassBlocks] = sprites[9];
+    }
+
+    public void LostLife(int playerIndex,int life)
+    {
+        if (life - 1 >= 0)
+        {
+            Life[playerIndex].transform.GetChild(life).gameObject.SetActive(false);
+            Life[playerIndex].transform.GetChild(life - 1).gameObject.SetActive(true);
+        }
+    }
+
+    public void setWinner(int w,int l)
+    {
+        
+        Winners[w].SetActive(true);
+        Winners[l].SetActive(true);
+        Winners[w].GetComponentInChildren<Text>().text = "YOU WIN!!";
+        Winners[l].GetComponentInChildren<Text>().text = "LOSER!!";
+
     }
 
     private void Start()
@@ -81,7 +102,11 @@ public class UIInGame : Singleton<UIInGame>
         int aux = ReturnFirstDiponible(player);
         cards[player, aux] = newCard;
         myHand[player][aux].gameObject.SetActive(true);
-        myHand[player][aux].GetComponent<Image>().sprite = spriteCard[newCard.value];
+
+        myHand[player][aux].GetChild(1).GetComponent<Image>().sprite = spriteCard[newCard.value];
+        myHand[player][aux].GetChild(2).GetComponent<Text>().text = newCard.value.ToString();
+
+        //myHand[player][aux].GetComponentInChildren<Image>().sprite = spriteCard[newCard.value];
         newCard = null;
         cardInHand[player]++;
     }
@@ -96,6 +121,7 @@ public class UIInGame : Singleton<UIInGame>
 
     IEnumerator EffectWhenRemoveCard(int player, int i)
     {
+       
         myHand[player][i].gameObject.transform.localScale = myHand[player][i].gameObject.transform.localScale * 2.0f;
         yield return new WaitForSeconds(0.35f);
         myHand[player][i].gameObject.transform.localScale= myHand[player][i].gameObject.transform.localScale / 2.0f;
@@ -124,6 +150,7 @@ public class UIInGame : Singleton<UIInGame>
         }
         return -1;
     }
+    
 
     public void Update()
     {

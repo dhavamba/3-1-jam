@@ -36,7 +36,7 @@ public class PreGame : MonoBehaviour
             dict.Add(card.value, imageCard.GetComponentInChildren<Text>());
             imageCard.Find("Add").GetComponent<Button>().onClick.AddListener(delegate { Deck.Instance<Deck>().AddDeck(player, card); });
             imageCard.Find("Remove").GetComponent<Button>().onClick.AddListener(delegate { Deck.Instance<Deck>().RemoveDeck(player, card); });
-            imageCard.Find("Text").GetComponent<Text>().text = imageCard.GetComponent<Card>().value.ToString();
+                imageCard.Find("Text").GetComponent<Text>().text = imageCard.GetComponent<Card>().value.ToString();
         }
     }
 

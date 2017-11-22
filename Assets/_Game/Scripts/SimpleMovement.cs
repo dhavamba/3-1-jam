@@ -23,6 +23,7 @@ public class SimpleMovement : MonoBehaviour
         speed = StartSpeed;
     }
 
+
     protected virtual void Update()
     {
         Translate();
